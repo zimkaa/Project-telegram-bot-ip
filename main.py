@@ -50,13 +50,13 @@ def message_handler(update: Update, context: CallbackContext) -> None:
                 chat_id=answer_to,
                 text="My master said not to say it",
             )
-    elif update.effective_message.chat_id == config.ABYSS_ID:
+    elif update.effective_message.chat_id == config.OTHER_ID:
         """
-        Sending info for abyss
+        Sending info for OTHER_ID
         """
         answer_ip = requests.get(config.URL).text  # type: ignore
         context.bot.send_message(
-            chat_id=config.ABYSS_ID,
+            chat_id=config.OTHER_ID,
             text=f"Necessary info {answer_ip}",
         )
         context.bot.send_message(
