@@ -1,44 +1,48 @@
-from datetime import datetime
 import sqlite3
+import datetime
 
 import pytz
 
 
-def create_db():
-
+def write_into_db(first_name: str, is_bot: bool, telegram_id: int,
+                  date: datetime, message_id: int, text: str,
+                  last_name: str = None, username: str = None) -> None:
+    """
+    Write message in DB
+    """
+    if sqlite3.connect('.\\IPDB.db'):
+        pass
+    else:
+        print("False")
     with sqlite3.connect('.\\IPDB.db') as db:
         sql = db.cursor()
 
-        sql.execute("DROP TABLE IF EXISTS users")
         sql.execute("""CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             first_name TEXT NOT NULL,
-            is_bot TEXT NOT NULL,
+            is_bot BOOL NOT NULL,
             telegram_id INTEGER NOT NULL UNIQUE,
             last_name TEXT,
             username TEXT)""")
 
-        sql.execute("DROP TABLE IF EXISTS messages")
         sql.execute("""CREATE TABLE IF NOT EXISTS messages (
-            message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message_id INTEGER NOT NULL,
             text_message TEXT NOT NULL,
-            user_id INTEGER NOT NULL,
+            telegram_id INTEGER NOT NULL,
             datetime NUMERIC NOT NULL)""")
 
         timezone = pytz.timezone("Europe/Moscow")
-        data = datetime.now()
-        dt = data.astimezone(timezone)
+        date_message = date.astimezone(timezone)
 
-        sql.execute("""INSERT INTO users (
-            first_name, is_bot, telegram_id, last_name, username)
-            VALUES ("Anton", "False", "11111", "***", "zimkaa")""")
+        data = telegram_id
+        sql.execute(
+            f"SELECT telegram_id FROM users WHERE telegram_id == {data}")
 
-        sql.execute(f"""INSERT INTO messages (
-            text_message, user_id, datetime)
-            VALUES ( "tratata", "1", "{dt}")""")
+        if sql.fetchone() is None:
+            sql.execute(
+                "INSERT INTO users VALUES (?, ?, ?, ?, ?)",
+                (first_name, is_bot, telegram_id, last_name, username))
 
-        db.commit()
-
-
-if __name__ == "__main__":
-    create_db()
+        sql.execute(
+            "INSERT INTO messages VALUES (NULL, ?, ?, ?, ?)",
+            (message_id, text, telegram_id, date_message))
