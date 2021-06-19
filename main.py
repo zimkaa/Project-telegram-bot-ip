@@ -110,20 +110,20 @@ def message_handler(update: Update, context: CallbackContext) -> None:
     if update.effective_message.chat_id == config.MY_ID:
         my_message(update, context)
         write_into_db(name.first_name, name.is_bot, name.id, date,
-                         m_id, text, name.last_name, name.username)
+                      m_id, text, name.last_name, name.username)
     elif update.effective_message.chat_id == config.OTHER_ID:
         other_message(update, context)
         write_into_db(name.first_name, name.is_bot, name.id, date,
-                         m_id, text, name.last_name, name.username)
+                      m_id, text, name.last_name, name.username)
     else:
         if update.message.text == "ip":
             ask_me(update, context)
             write_into_db(name.first_name, name.is_bot, name.id, date,
-                             m_id, text, name.last_name, name.username)
+                          m_id, text, name.last_name, name.username)
         else:
             sending_info(update, context)
             write_into_db(name.first_name, name.is_bot, name.id, date,
-                             m_id, text, name.last_name, name.username)
+                          m_id, text, name.last_name, name.username)
 
 
 @logger.catch
