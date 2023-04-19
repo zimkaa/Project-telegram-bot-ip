@@ -65,7 +65,7 @@ async def ask_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     Sending ask
     """
     name = update.effective_user
-    update.message.reply_text(  # type: ignore
+    await update.message.reply_text(  # type: ignore
         text="I ask my master",
         reply_to_message_id=update.message.message_id,  # type: ignore
     )
@@ -85,7 +85,7 @@ async def sending_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     """
     name = update.effective_user
     text = update.effective_message.text  # type: ignore
-    update.message.reply_text(  # type: ignore
+    await update.message.reply_text(  # type: ignore
         text="I don't understand you",
         reply_to_message_id=update.message.message_id,  # type: ignore
     )
