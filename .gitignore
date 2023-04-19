@@ -1,11 +1,18 @@
-setup.cfg
-
+## folders
+.venv/
+.env/
 __pycache__/
+.pytest_cache/
 .mypy_cache/
-.vscode/
-env/
+
+## files
+# dotenv
+.env
+
+*.pyc
+*.log
 .env
 *.db
-*.log
-
-test/
+poetry.lock
+.python-version
+*.sh
